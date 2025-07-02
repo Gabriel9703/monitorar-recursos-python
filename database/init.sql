@@ -5,6 +5,14 @@ CREATE TABLE IF NOT EXISTS cpu_logs (
 );
 
 
+CREATE TABLE IF NOT EXISTS cpu_core_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    core_number INT NOT NULL,
+    usage_percent FLOAT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE TABLE IF NOT EXISTS ram_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     percent FLOAT NOT NULL,
