@@ -1,26 +1,24 @@
 import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
-from metrics_static.cpu_info import CpuInfo
-from metrics_static.ram_info import RamInfo
-from metrics_static.network_info import NetworkInfo
-from metrics_static.disk_info import DiskInfo
-from metrics_static.swap_info import SwapInfo
+from scripts.metrics_normal.cpu_info import CpuInfo
+from scripts.metrics_normal.ram_info import RamInfo
+from scripts.metrics_normal.network_info import NetworkInfo
+from scripts.metrics_normal.disk_info import DiskInfo
+from scripts.metrics_normal.swap_info import SwapInfo
 from scripts.utils.format_out import format_bytes
 
 
-# Roda a cada 5 segundos (5000 milissegundos)
 st_autorefresh(interval=1000, key="auto-refresh")
+st.set_page_config(layout="wide")
+st.title("🖥️ Sistema de Monitoramento de Recursos")
    
 info_cpu = CpuInfo()
 info_ram = RamInfo()
 info_disk = DiskInfo()
 info_swap = SwapInfo()
 info_network = NetworkInfo()
-
   
-st.set_page_config(layout="wide")
-st.title("🖥️ Sistema de Monitoramento de Recursos")
 secao = st.sidebar.selectbox("Detalhar:", ["RAM", "Swap", "CPU","Rede"])
 
 if secao == "RAM":
@@ -76,7 +74,6 @@ elif secao == "CPU":
             core_usages = info_cpu.get_cpu_usage_each()
             formatted = "\n".join([f"Core {core}: {usage:.1f}%" for core, usage in core_usages])
             st.code(formatted)
-
 
 
 elif secao == "Rede":
