@@ -1,8 +1,12 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv(dotenv_path=".env.local")
+
 from psutil import cpu_percent
 from scripts.utils.logger import setup_logger
 from time import sleep
-from database.logs_repository import save_log_cpu, save_log_cpu_core
-
+from database.save_logs_db import save_log_cpu, save_log_cpu_core
 
 logger = setup_logger()
 

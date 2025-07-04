@@ -11,7 +11,7 @@ from metrics_static.disk_info import DiskInfo
 from metrics_static.swap_info import SwapInfo
 
 
-st_autorefresh(interval=5000, key="auto-refresh")
+st_autorefresh(interval=2000, key="auto-refresh")
 
 
 
@@ -68,12 +68,12 @@ st.divider()
 col1, col2 = st.columns(2)
 with col1:
     col5, col6 = st.columns(2, border=True)
-    col5.plotly_chart(donut_chart("CPU", info_cpu.get_cpu_usage_total(), "#03C5C8"), use_container_width=True)
-    col6.plotly_chart(donut_chart("RAM", info_ram.get_percent_memory(), "#86CECF"), use_container_width=True)
+    col5.plotly_chart(donut_chart("CPU", info_cpu.get_cpu_usage_total(), "#025318"), use_container_width=True)
+    col6.plotly_chart(donut_chart("RAM", info_ram.get_percent_memory(), "#11CA00"), use_container_width=True)
 with col2:
     col7, col8 = st.columns(2, border=True)
-    col7.plotly_chart(donut_chart("Disco", info_disk.get_percent_disk(), "#99E9B0"), use_container_width=True)
-    col8.plotly_chart(donut_chart("Swap", info_swap.get_percent_swap(),  "#99E9B0"), use_container_width=True)
+    col7.plotly_chart(donut_chart("Disco", info_disk.get_percent_disk(), "#184022"), use_container_width=True)
+    col8.plotly_chart(donut_chart("Swap", info_swap.get_percent_swap(),  "#0CED4C"), use_container_width=True)
 
 # Parte de baixo: gráfico de área com variação
 col3, col4 = st.columns(2, border=True)

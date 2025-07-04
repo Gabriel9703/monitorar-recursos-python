@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-database/logs_repository.py
+.env.local
 # Distribution / packaging
 .Python
 build/

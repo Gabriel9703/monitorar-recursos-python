@@ -1,8 +1,12 @@
+from dotenv import load_dotenv
+import os
+
+# Carrega o .env local para variáveis de ambiente
+load_dotenv(dotenv_path=".env.local")
 from psutil import net_io_counters
 from time import sleep
 from scripts.utils.logger import setup_logger
-from database.logs_repository import save_log_network
-
+from database.save_logs_db import save_log_network
 logger = setup_logger()
 
 

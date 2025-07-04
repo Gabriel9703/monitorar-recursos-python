@@ -7,7 +7,7 @@ from metrics_static.ram_info import RamInfo
 from metrics_static.network_info import NetworkInfo
 from metrics_static.disk_info import DiskInfo
 from metrics_static.swap_info import SwapInfo
-from database.logs_repository import get_last_cpu_logs, get_last_ram_logs, get_last_network_logs,  get_last_disk_logs, get_last_swap_logs
+from database.get_logs_db import get_last_cpu_logs, get_last_ram_logs, get_last_network_logs,  get_last_disk_logs, get_last_swap_logs
 
 
 

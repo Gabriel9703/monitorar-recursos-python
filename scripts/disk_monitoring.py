@@ -1,11 +1,15 @@
+from dotenv import load_dotenv
+import os
+
+# Carrega o .env local para variáveis de ambiente
+load_dotenv(dotenv_path=".env.local")
 from time import sleep
 
 from psutil import disk_usage
 
 from scripts.utils.logger import setup_logger
 from scripts.utils.format_out import format_bytes
-from database.logs_repository import save_log_disk
-
+from database.save_logs_db import save_log_disk
 
 logger = setup_logger()
 

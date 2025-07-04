@@ -1,4 +1,0 @@
-streamlit
-psutil
-plotly
-mysql-connector-python

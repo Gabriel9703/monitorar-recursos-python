@@ -1,0 +1,6 @@
+streamlit
+psutil
+plotly
+mysql-connector-python
+streamlit_autorefresh 
+python-dotenv
