@@ -1,25 +1,11 @@
 import streamlit as st
 import pandas as pd
-from streamlit_autorefresh import st_autorefresh
 
-from metrics_static.cpu_info import CpuInfo
-from metrics_static.ram_info import RamInfo
-from metrics_static.network_info import NetworkInfo
-from metrics_static.disk_info import DiskInfo
-from metrics_static.swap_info import SwapInfo
-from database.get_logs_db import get_last_cpu_logs, get_last_ram_logs, get_last_network_logs,  get_last_disk_logs, get_last_swap_logs
+from database.reader_logs_db import (get_last_cpu_logs, get_last_ram_logs, 
+                                  get_last_network_logs,  get_last_disk_logs, 
+                                  get_last_swap_logs)
 
 
-
-st_autorefresh(interval=10000, key="auto-refresh")
-
-
-
-info_cpu = CpuInfo()
-info_ram = RamInfo()
-info_disk = DiskInfo()
-info_swap = SwapInfo()
-info_network = NetworkInfo()
 
 st.set_page_config(layout="wide")
 st.title("🖥️ Sistema de Monitoramento de Recursos")    
