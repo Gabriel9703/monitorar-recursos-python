@@ -1,8 +1,8 @@
 from threading import Thread
-from scripts.cpu_monitoring import CpuMonitorController
-from scripts.network_monitoring import NetworkMonitorController
-from scripts.ram_monitoring import RamMonitorController
-from scripts.swap_monitoring import SwapMonitorController
+from scripts.metrics_critical.cpu_monitoring import CpuMonitorController
+from scripts.metrics_critical.network_monitoring import NetworkMonitorController
+from scripts.metrics_critical.ram_monitoring import RamMonitorController
+from scripts.metrics_critical.swap_monitoring import SwapMonitorController
 
 if __name__ == "__main__":
     cpu_monitor = CpuMonitorController()
