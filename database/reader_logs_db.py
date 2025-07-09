@@ -1,7 +1,6 @@
 from database.conexao import get_connection
 
 
-
 def get_last_cpu_logs(limit=10):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
@@ -11,7 +10,6 @@ def get_last_cpu_logs(limit=10):
     cursor.close()
     conn.close()
     return result
-
 
 
 def get_last_cpu_core_logs(limit=10):

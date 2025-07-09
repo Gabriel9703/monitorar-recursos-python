@@ -23,14 +23,12 @@ def save_log_cpu_core(core_number, usage):
 def save_log_network(stats):
     conn = get_connection()
     cursor = conn.cursor()
-
     query = """
         INSERT INTO network_logs (
             bytes_sent, bytes_recv, packets_sent, packets_recv,
             errors_sent, errors_received, drops_in, drops_out
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
-
     cursor.execute(query, (
         stats["bytes_sent"],
         stats["bytes_recv"],
@@ -41,7 +39,6 @@ def save_log_network(stats):
         stats["drops_in"],
         stats["drops_out"]
     ))
-
     conn.commit()
     cursor.close()
     conn.close()

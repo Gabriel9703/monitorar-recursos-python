@@ -53,5 +53,3 @@ class RamMonitorController:
         except Exception as e:
             logger.exception(f"Erro inesperado: {e}")        
 
-if __name__ == "__main__":
-    RamMonitorController().run()

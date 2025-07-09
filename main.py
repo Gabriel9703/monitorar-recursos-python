@@ -5,6 +5,7 @@ from scripts.metrics_critical.ram_monitoring import RamMonitorController
 from scripts.metrics_critical.swap_monitoring import SwapMonitorController
 
 if __name__ == "__main__":
+    
     cpu_monitor = CpuMonitorController()
     network_monitor = NetworkMonitorController(interval=2)
     ram_monitor = RamMonitorController(interval=1.5) 
