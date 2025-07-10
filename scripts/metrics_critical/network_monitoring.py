@@ -1,4 +1,4 @@
-from time import sleep
+import asyncio
 
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env.local")
@@ -45,12 +45,14 @@ class CriticalNetworkDetector:
         return critical
 
 class NetworkMonitorController:
-    def __init__(self, interval=2):
+    def __init__(self, interval=2, restart_script=1):
         self.stats = NetworkStats()
         self.detector = CriticalNetworkDetector()
         self.interval = interval
+        self.restart_script = restart_script
 
-    def run(self):
+
+    async def run(self):
         try:
             while True:
                 stats = self.stats.get_stats()
@@ -61,9 +63,8 @@ class NetworkMonitorController:
                 for k, v in critical.items():
                     logger.warning(f"Anomalia detectada: {k} = {v}")
 
-                sleep(self.interval)
-        except KeyboardInterrupt:
-            logger.warning("Monitoramento de rede interrompido.")
+                await asyncio.sleep(self.interval)
+    
         except Exception as e:
             logger.exception(f"Erro inesperado: {e}")
-          
+            await asyncio.sleep(self.restart_script)      

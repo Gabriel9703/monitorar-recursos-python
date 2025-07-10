@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env.local")
 
-from time import sleep
+import asyncio
 from psutil import cpu_percent
 
 from scripts.utils.logger import setup_logger
@@ -26,11 +26,13 @@ class CriticalCpuDetector:
 
 
 class CpuMonitorController:
-    def __init__(self, interval=1):
+    def __init__(self, interval=1, restart_script=1):
         self.detector = CriticalCpuDetector()
         self.interval = interval 
+        self.restart_script = restart_script
 
-    def run(self):
+
+    async def run(self):
         try:
             while True:
                 total = self.detector.get_total_usage()
@@ -49,10 +51,10 @@ class CpuMonitorController:
                     logger.warning(f"CPU {i} usage is critical: {usage}%")
                     save_log_cpu_core(i, usage)  
 
-                sleep(self.interval)
-        except KeyboardInterrupt:
-            logger.warning("Monitoramento interrompido pelo usuário.")
+                await asyncio.sleep(self.interval)
+        
         except Exception as e:
-            logger.exception(f"Erro inesperado: {e}")
+            logger.exception(f"Erro inesperado: {e}, restartando em 1s..")
+            await asyncio.sleep(self.restart_script)
  
    

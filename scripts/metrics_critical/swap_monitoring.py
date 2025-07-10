@@ -1,4 +1,4 @@
-from time import sleep
+import asyncio
 
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env.local")
@@ -25,11 +25,13 @@ class CriticalSwapDetector:
         return swap_memory().percent > self.threshold
 
 class SwapMonitorController:
-    def __init__(self, interval=2):
+    def __init__(self, interval=2, restart_script=1):
         self.detector = CriticalSwapDetector()
         self.interval = interval
+        self.restart_script = restart_script
 
-    def run(self):
+
+    async def run(self):
         try:
             while True:
                 data = self.detector.get_critical_data_swap()
@@ -42,9 +44,8 @@ class SwapMonitorController:
                     logger.warning(f" Uso critico de Swap: {data['percent']}%")
                     save_log_swap(data["total"], data["used"], data["percent"])
 
-                sleep(self.interval)
+                await asyncio.sleep(self.interval)
 
-        except KeyboardInterrupt:
-            logger.warning("Monitoramento interrompido pelo usuário.")
         except Exception as e:
             logger.exception(f"Erro inesperado: {e}")
+            await asyncio.sleep(self.restart_script)   

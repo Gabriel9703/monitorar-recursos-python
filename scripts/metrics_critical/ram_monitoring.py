@@ -1,5 +1,4 @@
-from time import sleep
-
+import asyncio
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env.local")
 
@@ -31,11 +30,12 @@ class CriticalRamDetector:
 
 
 class RamMonitorController:
-    def __init__(self, interval=1.5):
+    def __init__(self, interval=1.5, restart_script=1):
         self.detector = CriticalRamDetector()
         self.interval = interval
+        self.restart_script =  restart_script
 
-    def run(self):
+    async def run(self):
         try:
             while True:
                 data = self.detector.get_critical_data()
@@ -46,10 +46,8 @@ class RamMonitorController:
                     logger.warning(f"Uso critico de RAM: {data['percent']}%")
                     save_log_ram(data['total'], data['used'], data['percent'])
 
-                sleep(self.interval)
+                await asyncio.sleep(self.interval)
 
-        except KeyboardInterrupt:
-            logger.warning("Monitoramento interrompido pelo usuário.")
         except Exception as e:
             logger.exception(f"Erro inesperado: {e}")        
-
+            await asyncio.sleep(self.restart_script)

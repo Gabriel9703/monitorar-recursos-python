@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env.local")
 
 from psutil import disk_usage
-
+import asyncio
 from scripts.utils.logger import setup_logger
 from scripts.utils.format_out import format_bytes
 from database.writer_logs_db import save_log_disk
@@ -29,11 +29,12 @@ class CriticalDiskDetector:
         return disk_usage("/").percent > self.threshold
     
 class DiskMonitorController:
-    def __init__(self, interval=2):
+    def __init__(self, interval=2, restart_script=1):
         self.stats = CriticalDiskDetector()
         self.interval = interval
+        self.restart_script = restart_script
 
-    def run(self):
+    async def run(self):
         try:
             while True:
                 data = self.stats.get_critical_data_disk()
@@ -44,10 +45,9 @@ class DiskMonitorController:
                     logger.warning(f"Uso critico de disco: {data['percent']}%")
                     save_log_disk(data['total'], data['used'], data['percent'])
 
-                sleep(self.interval)
+                await asyncio.sleep(self.interval)
 
-        except KeyboardInterrupt:
-            logger.warning("Monitoramento interrompido pelo usuário.")
         except Exception as e:
-            logger.exception(f"Erro inesperado: {e}")    
+            logger.exception(f"Erro inesperado: {e} restartando em 1s..")
+            await asyncio.sleep(self.restart_script)    
 

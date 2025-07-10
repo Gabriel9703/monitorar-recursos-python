@@ -53,3 +53,14 @@ CREATE TABLE IF NOT EXISTS network_logs (
     drops_out INT,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS processes_log(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pid INT NOT NULL,
+    name_proc VARCHAR(50) NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    cpu_percent FLOAT NOT NULL,
+    memory_percent FLOAT NOT NULL,
+    status_proc VARCHAR(20) NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);

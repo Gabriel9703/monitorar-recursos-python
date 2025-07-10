@@ -65,3 +65,16 @@ def get_last_swap_logs(limit=10):
     cursor.close()
     conn.close()
     return result
+
+
+def get_last_processes_logs(limit=10):
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    query = "SELECT * FROM processes_log ORDER BY timestamp DESC LIMIT %s"
+    cursor.execute(query, (limit,))
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return result
+
+

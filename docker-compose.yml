@@ -17,20 +17,34 @@ services:
       timeout: 5s
       retries: 5
 
+  monitor:
+    build: .
+    container_name: metrics_monitor
+    volumes:
+      - ./shared_metrics:/app/shared_metrics
+      - ./scripts:/app/scripts
+      - ./database:/app/database
+    env_file: .env
+    pid: host
+    restart: unless-stopped
+    command: python3 /app/main.py
+
 
   streamlit-app:
     build: .
     container_name: streamlit_monitoring_app
     ports:
       - "8501:8501"
-    env_file: .env
+    volumes:
+      - ./shared_metrics:/app/shared_metrics
+      - ./dashboard:/app/dashboard
+    env_file: .env  
     depends_on:
       mysql:
         condition: service_healthy
-    volumes:
-      - ./dashboard:/app/dashboard
-      - ./database:/app/database
-    command: bash start.sh
+      monitor:
+        condition: service_started
+    command: bash /app/start.sh
     
 
 volumes:

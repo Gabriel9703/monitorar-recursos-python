@@ -74,4 +74,13 @@ def save_log_disk(total, used, percent):
     conn.close()    
 
 
+def save_log_process(pid, name_proc, username, cpu_percent, memory_percent, status_proc):
+    conn = get_connection()
+    cursor = conn.cursor()  
+    query = "INSERT INTO processes_log (pid, name_proc, username, cpu_percent, memory_percent, status_proc) VALUES (%s, %s, %s, %s, %s, %s,)"
+    cursor.execute(query, (pid, name_proc, username, cpu_percent, memory_percent, status_proc))
+    conn.commit()
+    cursor.close()
+    conn.close()     
+
 
