@@ -2,7 +2,7 @@ import logging
 
 def setup_logger(name='monitoramento'):
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.WARNING)
 
     handler = logging.StreamHandler()
     formatter = logging.Formatter(
