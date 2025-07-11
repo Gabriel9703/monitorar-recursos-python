@@ -20,6 +20,8 @@ services:
   monitor:
     build: .
     container_name: metrics_monitor
+    ports:
+      - "8502:8502"
     volumes:
       - ./shared_metrics:/app/shared_metrics
       - ./scripts:/app/scripts

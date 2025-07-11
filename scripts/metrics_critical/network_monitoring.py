@@ -45,7 +45,7 @@ class CriticalNetworkDetector:
         return critical
 
 class NetworkMonitorController:
-    def __init__(self, interval=2, restart_script=1):
+    def __init__(self, interval=1, restart_script=1):
         self.stats = NetworkStats()
         self.detector = CriticalNetworkDetector()
         self.interval = interval
@@ -56,12 +56,11 @@ class NetworkMonitorController:
         try:
             while True:
                 stats = self.stats.get_stats()
-                logger.info(f"Rede: {stats}")
-                save_log_network(stats)
-
                 critical = self.detector.detect(stats)
-                for k, v in critical.items():
-                    logger.warning(f"Anomalia detectada: {k} = {v}")
+                if len(critical) > 0:
+                    for k, v in critical.items():
+                        logger.warning(f"Anomalia detectada: {k} = {v}")
+                        save_log_network(stats)     
 
                 await asyncio.sleep(self.interval)
     

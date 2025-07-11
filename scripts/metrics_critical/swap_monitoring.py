@@ -25,7 +25,7 @@ class CriticalSwapDetector:
         return swap_memory().percent > self.threshold
 
 class SwapMonitorController:
-    def __init__(self, interval=2, restart_script=1):
+    def __init__(self, interval=0.5, restart_script=1):
         self.detector = CriticalSwapDetector()
         self.interval = interval
         self.restart_script = restart_script
@@ -35,11 +35,6 @@ class SwapMonitorController:
         try:
             while True:
                 data = self.detector.get_critical_data_swap()
-                logger.info(f"Swap total: {format_bytes(data['total'])}")
-                logger.info(
-                    f"Swap usada: {format_bytes(data['used'])}, uso: {data['percent']}%"
-                )
-
                 if self.detector.is_critical_swap():
                     logger.warning(f" Uso critico de Swap: {data['percent']}%")
                     save_log_swap(data["total"], data["used"], data["percent"])

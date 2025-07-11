@@ -30,7 +30,7 @@ class CriticalRamDetector:
 
 
 class RamMonitorController:
-    def __init__(self, interval=1.5, restart_script=1):
+    def __init__(self, interval=0.5, restart_script=1):
         self.detector = CriticalRamDetector()
         self.interval = interval
         self.restart_script =  restart_script
@@ -39,9 +39,6 @@ class RamMonitorController:
         try:
             while True:
                 data = self.detector.get_critical_data()
-                logger.info(f"RAM total: {format_bytes(data['total'])}")
-                logger.info(f"RAM usada: {format_bytes(data['used'])}, uso: {data['percent']}%")
-
                 if self.detector.is_critical():
                     logger.warning(f"Uso critico de RAM: {data['percent']}%")
                     save_log_ram(data['total'], data['used'], data['percent'])

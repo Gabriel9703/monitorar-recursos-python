@@ -26,7 +26,7 @@ class CriticalCpuDetector:
 
 
 class CpuMonitorController:
-    def __init__(self, interval=1, restart_script=1):
+    def __init__(self, interval=0.5, restart_script=0.5):
         self.detector = CriticalCpuDetector()
         self.interval = interval 
         self.restart_script = restart_script
@@ -38,14 +38,10 @@ class CpuMonitorController:
                 total = self.detector.get_total_usage()
                 each = self.detector.get_each_usage()
 
-                logger.info(f"Total CPU Usage: {total}%")
                 if total > self.detector.threshold:
                     logger.warning(f"Total CPU usage is critical: {total}%")
                     save_log_cpu(total) 
-
-                for i, usage in enumerate(each, start=1):
-                    logger.info(f"CPU {i} Usage: {usage}%")
-                    
+                
                 critical_cores = self.detector.get_critical_cores(each)
                 for i, usage in critical_cores:
                     logger.warning(f"CPU {i} usage is critical: {usage}%")
