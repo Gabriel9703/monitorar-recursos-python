@@ -1,53 +1,19 @@
-version: '3.8'
+version: "3.9"
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql_container
-    restart: always
-    env_file: .env
+  dash_app:
+    environment:
+      - METRICS_PATH=/app/database/json/shared_metrics
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
     ports:
-      - "3306:3306"
+      - "8050:8050"
     volumes:
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  monitor:
-    build: .
-    container_name: metrics_monitor
-    ports:
-      - "8502:8502"
-    volumes:
-      - ./shared_metrics:/app/shared_metrics
-      - ./scripts:/app/scripts
-      - ./database:/app/database
-    env_file: .env
-    pid: host
-    restart: unless-stopped
-    command: python3 /app/main.py
-
-
-  streamlit-app:
-    build: .
-    container_name: streamlit_monitoring_app
-    ports:
-      - "8501:8501"
-    volumes:
-      - ./shared_metrics:/app/shared_metrics
-      - ./dashboard:/app/dashboard
-    env_file: .env  
-    depends_on:
-      mysql:
-        condition: service_healthy
-      monitor:
-        condition: service_started
-    command: bash /app/start.sh
-    
-
-volumes:
-  mysql_data:
+      - ./database/json:/app/database/json
+      - ./database/sqlite:/app/database/sqlite
+    deploy:
+      resources:
+        limits:
+          cpus: '0.7'
+          memory: 512M
