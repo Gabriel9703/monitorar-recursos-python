@@ -1,87 +1,57 @@
-# 🖥️ Sistema de Monitoramento de Recursos com Python, psutil e MySQL
+# 📊 Sistema de Monitoramento com psutil + Dash
 
-Este projeto monitora os principais recursos do sistema — CPU, RAM, Disco e Rede — em tempo real, utilizando `psutil`, e registra automaticamente **logs críticos** em um banco de dados MySQL, executado via Docker.
+Este projeto tem como objetivo monitorar métricas de sistema em tempo real utilizando `psutil`, armazenar dados críticos em `SQLite` e exibir tudo em um painel moderno criado com `Dash`. O projeto é executado em um ambiente Docker e está em constante evolução.
 
----
+## 🚀 Funcionalidades Atuais
 
-## 📋 Funcionalidades
-
-- ✅ Monitoramento contínuo da **CPU**
-- ✅ Monitoramento da **memória RAM**
-- ✅ Monitoramento da **Rede (envios, recebimentos, erros, pacotes)**
-- ✅ Salvamento automático dos logs **críticos** no MySQL
-- ✅ Estrutura modular com classes bem definidas
-- ✅ Uso de `logging` estruturado com timestamps
-- ✅ Pronto para ser expandido com métricas de disco e processos
-- ✅ Threads paralelas para execução simultânea dos monitores
-
----
+- Coleta de métricas de sistema (CPU, RAM, Swap, Disco, Rede, etc) com [psutil](https://pypi.org/project/psutil/)
+- Métricas comuns salvas em arquivos `.json` (sobrescritos a cada 1 segundo)
+- Detecção de métricas críticas com **média móvel** (5 coletas) utilizando `collections.deque`
+- Armazenamento de métricas críticas em banco de dados `SQLite` via [SQLAlchemy](https://www.sqlalchemy.org/)
+- Dashboard web responsivo com [Dash (Plotly)](https://dash.plotly.com/)
+- Execução assíncrona com `asyncio` para desempenho otimizado
+- Docker container para fácil implantação
 
 
-## ⚙️ Pré-requisitos
+## 📦 Tecnologias Utilizadas
 
-- Python 3.10+
-- Docker + Docker Compose
-- `psutil`, `mysql-connector-python`
+- Python 3.11+
+- psutil
+- Dash (Plotly)
+- SQLAlchemy
+- SQLite
+- asyncio / deque
+- Docker
 
-Instale os pacotes Python:
+## 🛠 Em Desenvolvimento
 
-```bash
-pip install -r requirements.txt
-```
+- 🔌 **API REST** para incluir múltiplos hosts no monitoramento
+- 🖥️ **Melhoria visual** e usabilidade da interface do dashboard
+- 📁 Organização de arquivos por hostname ou data
+- 📤 Exportação de relatórios críticos (CSV ou PDF)
 
----
+## 📄 Como Executar
 
-## 🐳 Subindo o Banco de Dados com Docker
+### Pré-requisitos
 
-Antes de executar os monitores, suba o banco MySQL com:
+- Docker e Docker Compose instalados
+
+### Subir a aplicação:
 
 ```bash
 docker-compose up --build
 ```
 
-Isso irá:
-
-- Criar o container do MySQL
-- Executar o script `init.sql` com as tabelas de `cpu_logs`, `ram_logs`, `network_logs`
-
----
-
-## 🚀 Executando o Monitoramento
-
-Depois que o container do MySQL estiver de pé, execute:
+### Começar a monitorar:
 
 ```bash
+na raiz do projeto:
+
 python main.py
 ```
+📬 Contribuição
 
-> O sistema começará a monitorar a CPU, RAM, SWAP e Rede. Logs críticos (acima de 80% de uso, erros ou drops) serão salvos no banco de dados automaticamente.
-
----
-
-## 🧪 Testando anomalias
-
-Para simular situações críticas e testar o sistema, use o utilitário `stress` (no Linux):
-
-```bash
-sudo apt install stress
-
-# Estressar a CPU
-stress --cpu 4 --timeout 10
-
-# Estressar a RAM
-stress --vm 2 --vm-bytes 2G --timeout 10
-```
-
----
-
-## 🛠️ Extensível para:
-
-- Processos: usando `psutil.process_iter()`
-- Streamlit ou Dash para exibir dashboards em tempo real
-
-
-
+Sinta-se à vontade para sugerir melhorias, abrir issues ou enviar pull requests.
 ---
 
 ## 👨‍💻 Autor
